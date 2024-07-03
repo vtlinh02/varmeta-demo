@@ -36,6 +36,7 @@ export const Category = ({ projects, link, title }: Props) => {
             </div>
           }
         </div>
-      </div></Link>
+      </div>
+    </Link>
   )
 }
