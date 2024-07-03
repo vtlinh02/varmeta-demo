@@ -8,9 +8,9 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
-	subsets: ["latin"],
-	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-	variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-montserrat",
 });
 
 // export const metadata: Metadata = {
@@ -20,22 +20,22 @@ const montserrat = Montserrat({
 
 const queryClient = new QueryClient();
 const RootLayout = ({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) => {
-	return (
-		<html lang="en">
-			<body className={`${montserrat.variable} overflow-x-hidden relative bg-gray-100 min-h-screen`}>
-				<QueryClientProvider client={queryClient}>
-					<>
-						<Header />
-						{children}
-					</>
-				</QueryClientProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={`${montserrat.variable} overflow-x-hidden relative bg-gray-100 min-h-screen`}>
+        <QueryClientProvider client={queryClient}>
+          <>
+            <Header />
+            {children}
+          </>
+        </QueryClientProvider>
+      </body>
+    </html>
+  );
 }
 
 export default RootLayout
