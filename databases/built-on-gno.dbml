@@ -1,0 +1,83 @@
+// Use DBML to define database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+// Define table projects 
+Table projects {
+  id integer [primary key, not null, increment]
+  name varchar(255) [not null, note: "name of the project"]
+  logo varchar(255) [not null, note: "url to logo of the project"]
+  short_description text [not null, note: "short description of the project"]
+  description varchar(255) [null, note: "url to markdown file"]
+  author varchar(255) [not null, note: "author name of the project"]
+  category_id integer [not null, ref: > categories.id]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define table categories 
+Table categories {
+  id integer [primary key, not null, increment]
+  name varchar(255) [not null]
+  description text [null, note: "description of the category"]
+  parent integer [null, note: "parent category id if it's sub category"]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define table socials 
+Table socials {
+  id integer [primary key, not null, increment]
+  type varchar(50) [not null, note: "type of social network connected to the project"]
+  url varchar(255) [not null, note: "url to social network connected to the project"]
+  project_id integer [not null, ref: > projects.id]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define table partnerships
+Table partnerships{
+  id integer [primary key, not null, increment]
+  name varchar(255) [not null, note: "name of the partnership"]
+  logo varchar(255) [not null, note: "logo url of the partnership"]
+  project_id integer [not null, ref: > projects.id]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define table tags 
+Table tags{
+  id integer [primary key, not null, increment]
+  name varchar(255) [unique, not null, note: "name of the partnership"]
+  description text [not null, note: "description of the tag"]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define a project_tags table to intermediately store multiple tags for multiple projects
+Table project_tags{
+  id integer [primary key, not null, increment]
+  project_id integer [not null, ref: > projects.id]
+  tag_id integer [not null, ref: > tags.id]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define table features 
+Table features{
+  id integer [primary key, not null, increment]
+  key varchar(255) [unique, not null, note: "key for comparison of features"]
+  label varchar(255) [not null, note: "label to display the feature"]
+  status varchar(50) [not null, default: "active", note: "status of the feature"]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
+
+// Define a project_features table to intermediately store multiple features for multiple projects
+Table project_features{
+  id integer [primary key, not null, increment]
+  project_id integer [not null,ref: > projects.id]
+  feature_id integer [not null,ref: > features.id]
+  value bool [not null, note: "value for comparison of features"]
+  created_at timestamp [null, default: "current_timestamp()"]
+  updated_at timestamp [null, default: "current_timestamp()"]
+}
