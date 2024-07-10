@@ -1,17 +1,15 @@
 import { DataSourceOptions } from 'typeorm'
 import 'dotenv/config'
-import { Categories } from '@/databases/entities/Categories'
-import { Projects } from '@/databases/entities/Projects'
-import { Partnerships } from '@/databases/entities/Partnerships'
-import { Socials } from '@/databases/entities/Socials'
-import { ProjectFeatures } from '@/databases/entities/ProjectFeatures'
-import { ProjectTags } from '@/databases/entities/ProjectTags'
-import { Features } from '@/databases/entities/Features'
-import { Tags } from '@/databases/entities/Tags'
-import { Glossaries } from '@/databases/entities/Glossaries'
-import { GlossaryProjects } from '@/databases/entities/GlossaryProjects'
-import { ProjectSocials } from '@/databases/entities/ProjectSocials'
-import { ProjectDescriptions } from '@/databases/entities/ProjectDescriptions'
+import * as fs from 'node:fs'
+import { join } from 'node:path'
+import { Category } from '@/database/entities/Category.entity'
+import { Feature } from '@/database/entities/Feature.entity'
+import { Partnership } from '@/database/entities/Partnership.entity'
+import { Project } from '@/database/entities/Project.entity'
+import { ProjectFeature } from '@/database/entities/ProjectFeature.entity'
+import { ProjectTag } from '@/database/entities/ProjectTag.entity'
+import { Social } from '@/database/entities/Social.entity'
+import { Tag } from '@/database/entities/Tag.entity'
 
 export const DatabaseConfig: DataSourceOptions = {
   type: 'mysql',
@@ -21,19 +19,23 @@ export const DatabaseConfig: DataSourceOptions = {
   password: process.env.TYPEORM_PASSWORD,
   database: process.env.TYPEORM_DATABASE,
   entities: [
-    Categories,
-    Projects,
-    Partnerships,
-    Socials,
-    ProjectFeatures,
-    ProjectTags,
-    Features,
-    Tags,
-    Glossaries,
-    GlossaryProjects,
-    ProjectSocials,
-    ProjectDescriptions,
+    Category,
+    Feature,
+    Partnership,
+    Project,
+    ProjectFeature,
+    ProjectTag,
+    Social,
+    Tag,
   ],
+  ssl:
+    process.env.TYPEORM_USE_SSL === 'true'
+      ? {
+          ca: fs.readFileSync(
+            join(process.cwd(), 'src/database/cert/devCert.pem'),
+          ),
+        }
+      : null,
   synchronize: true,
-  logging: true,
+  logging: false,
 }
