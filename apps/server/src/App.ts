@@ -1,9 +1,9 @@
 import express from 'express'
 import { Routes } from './decorator/routes'
 import { logger } from './utils/logger'
-import { connection } from './databases/connection'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import { connection } from './database/connection'
 const { NODE_ENV, PORT } = process.env
 
 class App {

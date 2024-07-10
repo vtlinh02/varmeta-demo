@@ -1,4 +1,4 @@
-import { connection } from '@/databases/connection'
+import { connection } from '@/database/connection'
 import { Tags } from '@/databases/entities/Tags'
 import { Pagination } from '@/decorator/types'
 import { getMeta } from '@/shared/get-meta'
