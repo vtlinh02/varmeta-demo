@@ -1,0 +1,733 @@
+openapi: 3.0.0
+info:
+  title: Built On Gno
+  description: The API for the Built On Gno project
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/Hoanle396/BuiltOnGno/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /api/categories:
+    get:
+      tags:
+      - Categories
+      description: returns all categories
+      operationId: categories
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/categories/{id}:
+    get:
+      tags:
+      - Categories
+      description: return category by category id
+      operationId: categories/id
+      parameters:
+      - name: id
+        in: path
+        description: category id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+        example: 1
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/projects:
+    get:
+      tags:
+      - Projects
+      description: return all projects
+      operationId: projects
+      parameters:
+      - name: category_id
+        in: query
+        description: category id
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      - name: sub_category_id
+        in: query
+        description: sub category id
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      - name: limit
+        in: query
+        description: limit of projects if null return all
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 10
+      - name: order
+        in: query
+        description: order project
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: created_at:desc
+      - name: search
+        in: query
+        description: search project
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: keyword
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/projects/all:
+    get:
+      tags:
+      - Projects
+      description: return category and projects
+      operationId: projects/all
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAllResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/projects/{id}:
+    get:
+      tags:
+      - Projects
+      description: return project by project id
+      operationId: "projects/{id}"
+      parameters:
+      - name: id
+        in: path
+        description: project id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+        example: 1
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDetailResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/project_by_tags:
+    get:
+      tags:
+      - Projects
+      description: return projects by tag
+      operationId: project_by_tags
+      parameters:
+      - name: tag_id
+        in: query
+        description: tag id
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/compare:
+    get:
+      tags:
+      - Projects
+      description: compare projects by tag
+      operationId: compare
+      parameters:
+      - name: id
+        in: query
+        description: project id
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      - name: tag
+        in: query
+        description: tag id
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectCompareResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/glossary:
+    get:
+      tags:
+      - Projects
+      description: glossary projects
+      operationId: glossary
+      parameters:
+      - name: id
+        in: query
+        description: project id
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 1
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/tags:
+    get:
+      tags:
+      - Tags
+      description: return all tags
+      operationId: tags
+      parameters:
+      - name: limit
+        in: query
+        description: limit of tags if null return all
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+        example: 10
+      - name: order
+        in: query
+        description: order tags
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: created_at:desc
+      - name: search
+        in: query
+        description: search tags
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: keyword
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagsResponse'
+        "400":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error message
+        error:
+          type: string
+          example: error description
+    CategoriesResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    CategoryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/CategoryResponse_data'
+    Category:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: category name
+        description:
+          type: string
+          example: category description
+    ProjectResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        total:
+          type: number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    TagsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        total:
+          type: number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+    Tags:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: tag name
+        description:
+          type: string
+          example: tag description
+    Project:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: project name
+        logo_url:
+          type: string
+          example: http://com.example.image/image.png
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+        short_description:
+          type: string
+          example: project short description
+        created_at:
+          type: string
+          example: datetime
+        updated_at:
+          type: string
+          example: datetime
+    CategoryProject:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: category name
+        description:
+          type: string
+          example: category description
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    ProjectAllResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        total:
+          type: number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryProject'
+    ProjectDetailResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/ProjectDetailResponse_data'
+    Partnership:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: partnership name
+        logo_url:
+          type: string
+          example: http://com.example.image/image.png
+    Social:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        type:
+          type: string
+          example: social type
+        url:
+          type: string
+          example: http://social.com/username
+    Feature:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        key:
+          type: string
+          example: feature key
+        label:
+          type: string
+          example: feature label
+        value:
+          type: boolean
+          example: true
+    ProjectCompare:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: project name
+        logo_url:
+          type: string
+          example: http://com.example.image/image.png
+        short_description:
+          type: string
+          example: project short description
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/Feature'
+    ProjectCompareResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectCompare'
+    Glossary:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: glossary name
+        description:
+          type: string
+          example: glossary description
+    GlossaryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Glossary'
+    CategoryResponse_data:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: category name
+        description:
+          type: string
+          example: category description
+        sub_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    ProjectDetailResponse_data_category_parent:
+      type: object
+      properties:
+        name:
+          type: string
+          example: category name
+        description:
+          type: string
+          example: category description
+        parent:
+          type: object
+          nullable: true
+    ProjectDetailResponse_data_category:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: category name
+        description:
+          type: string
+          example: category description
+        parent:
+          $ref: '#/components/schemas/ProjectDetailResponse_data_category_parent'
+    ProjectDetailResponse_data:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        category:
+          $ref: '#/components/schemas/ProjectDetailResponse_data_category'
+        name:
+          type: string
+          example: project name
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+        logo_url:
+          type: string
+          example: http://com.example.image/image.png
+        short_description:
+          type: string
+          example: project short description
+        description:
+          type: string
+          example: project description
+        author:
+          type: string
+          example: project author
+        partnerships:
+          type: array
+          items:
+            $ref: '#/components/schemas/Partnership'
+        socials:
+          type: array
+          items:
+            $ref: '#/components/schemas/Social'
+        created_at:
+          type: string
+          example: datetime
+        updated_at:
+          type: string
+          example: datetime
