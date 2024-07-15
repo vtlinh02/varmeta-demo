@@ -4,416 +4,331 @@ info:
   description: The API for the Built On Gno project
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/Hoanle396/BuiltOnGno/1.0.0
-  description: SwaggerHub API Auto Mocking
+  - url: https://virtserver.swaggerhub.com/Hoanle396/BuiltOnGno/1.0.0
+    description: SwaggerHub API Auto Mocking
 paths:
-  /api/categories:
+  /api/v1/categories:
     get:
       tags:
-      - Categories
+        - Categories
       description: returns all categories
-      operationId: categories
+      operationId: getCategories
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoriesResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/categories/{id}:
+  /api/v1/categories/{id}:
     get:
       tags:
-      - Categories
+        - Categories
       description: return category by category id
-      operationId: categories/id
+      operationId: getCategory
       parameters:
-      - name: id
-        in: path
-        description: category id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: number
-        example: 1
+        - name: id
+          in: path
+          description: category id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/projects:
+  /api/v1/projects:
     get:
       tags:
-      - Projects
+        - Projects
       description: return all projects
-      operationId: projects
+      operationId: getProjects
       parameters:
-      - name: category_id
-        in: query
-        description: category id
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
-      - name: sub_category_id
-        in: query
-        description: sub category id
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
-      - name: limit
-        in: query
-        description: limit of projects if null return all
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 10
-      - name: order
-        in: query
-        description: order project
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: created_at:desc
-      - name: search
-        in: query
-        description: search project
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: keyword
+        - name: category_id
+          in: query
+          description: category id
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
+        - name: sub_category_id
+          in: query
+          description: sub category id
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
+        - name: tag_id
+          in: query
+          description: tag id
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
+        - name: limit
+          in: query
+          description: limit projects
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 10
+        - name: page
+          in: query
+          description: page for pagination
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
+        - name: order
+          in: query
+          description: order by project
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: created_at:desc
+        - name: search
+          in: query
+          description: search project by project name
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: keyword
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/projects/all:
+  /api/v1/projects/{id}:
     get:
       tags:
-      - Projects
-      description: return category and projects
-      operationId: projects/all
-      responses:
-        "200":
-          description: success response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProjectAllResponse'
-        "400":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "404":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "500":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /api/projects/{id}:
-    get:
-      tags:
-      - Projects
+        - Projects
       description: return project by project id
-      operationId: "projects/{id}"
+      operationId: getProject
       parameters:
-      - name: id
-        in: path
-        description: project id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: number
-        example: 1
+        - name: id
+          in: path
+          description: project id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectDetailResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/project_by_tags:
+  /api/v1/glossaries:
     get:
       tags:
-      - Projects
-      description: return projects by tag
-      operationId: project_by_tags
-      parameters:
-      - name: tag_id
-        in: query
-        description: tag id
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
-      responses:
-        "200":
-          description: success response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProjectResponse'
-        "400":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "404":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "500":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /api/compare:
-    get:
-      tags:
-      - Projects
-      description: compare projects by tag
-      operationId: compare
-      parameters:
-      - name: id
-        in: query
-        description: project id
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
-      - name: tag
-        in: query
-        description: tag id
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
-      responses:
-        "200":
-          description: success response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProjectCompareResponse'
-        "400":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "404":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "500":
-          description: error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /api/glossary:
-    get:
-      tags:
-      - Projects
+        - Projects
       description: glossary projects
-      operationId: glossary
+      operationId: getGlossaries
       parameters:
-      - name: id
-        in: query
-        description: project id
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 1
+        - name: id
+          in: query
+          description: project id
+          required: true
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 1
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GlossaryResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/tags:
+  /api/v1/tags:
     get:
       tags:
-      - Tags
+        - Tags
       description: return all tags
-      operationId: tags
+      operationId: getTags
       parameters:
-      - name: limit
-        in: query
-        description: limit of tags if null return all
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: number
-        example: 10
-      - name: order
-        in: query
-        description: order tags
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: created_at:desc
-      - name: search
-        in: query
-        description: search tags
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: keyword
+        - name: limit
+          in: query
+          description: limit of tags
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 10
+        - name: page
+          in: query
+          description: page for pagination
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+          example: 10
+        - name: order
+          in: query
+          description: order tags
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: created_at:desc
+        - name: search
+          in: query
+          description: search tags by tag name
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: keyword
       responses:
-        "200":
+        '200':
           description: success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TagsResponse'
-        "400":
+        '400':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "404":
+        '404':
           description: error response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        "500":
+        '500':
           description: error response
           content:
             application/json:
@@ -519,34 +434,6 @@ components:
         updated_at:
           type: string
           example: datetime
-    CategoryProject:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-        name:
-          type: string
-          example: category name
-        description:
-          type: string
-          example: category description
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-    ProjectAllResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        total:
-          type: number
-          example: 1
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryProject'
     ProjectDetailResponse:
       type: object
       properties:
@@ -619,9 +506,8 @@ components:
     ProjectCompareResponse:
       type: object
       properties:
-        message:
-          type: string
-          example: success
+        tag:
+          $ref: '#/components/schemas/Tags'
         data:
           type: array
           items:
@@ -725,6 +611,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Social'
+        compare:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectCompareResponse'
         created_at:
           type: string
           example: datetime
