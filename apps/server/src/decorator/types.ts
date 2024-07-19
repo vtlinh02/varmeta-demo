@@ -29,3 +29,23 @@ export class Pagination {
   @IsString()
   search?: string
 }
+
+export class FilterProjectOption extends Pagination {
+  @IsNumber()
+  @IsOptional()
+  @Min(1)
+  @Type(() => Number)
+  category_id?: number
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  @Min(1)
+  sub_category_id?: number
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  @Min(1)
+  tag_id?: number
+}
