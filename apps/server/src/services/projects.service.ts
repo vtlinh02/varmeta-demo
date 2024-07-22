@@ -30,10 +30,10 @@ export class ProjectsService {
         })
       }
       if (category_id) {
-        query.andWhere('category.id = :category_id', { category_id })
+        query.andWhere('parent_category.id = :category_id', { category_id })
       }
       if (sub_category_id) {
-        query.andWhere('sub_category.id = :sub_category_id', {
+        query.andWhere('category.id = :sub_category_id', {
           sub_category_id,
         })
       }
