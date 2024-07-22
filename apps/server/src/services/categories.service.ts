@@ -22,20 +22,25 @@ export class CategoriesService {
   public async getCategories(params?: Pagination) {
     const { page = 1, page_size = 10, order, search } = params
     try {
-      const where: FindOptionsWhere<Categories> = {
-        parentId: IsNull(),
-      }
+      const query = await this.categories
+        .createQueryBuilder('categories')
+        .where('categories.parent_id IS NULL')
+        .skip((page - 1) * page_size)
+        .take(page_size)
+
       if (search) {
-        where.name = ILike(`%${search}%`)
+        query.andWhere('lower(categories.name) LIKE lower(:search)', {
+          search: `%${search}%`,
+        })
       }
-      const [data, count] = await this.categories.findAndCount({
-        where,
-        take: page_size,
-        skip: (page - 1) * page_size,
-        order: order
-          ? (orderParser(String(order)) as FindOptionsOrder<Categories>)
-          : undefined,
-      })
+      if (order) {
+        const parser = orderParser(String(order))
+        Object.keys(parser).forEach((key) =>
+          query.addOrderBy(key, parser[key as keyof typeof parser]),
+        )
+      }
+
+      const [data, count] = await query.getManyAndCount()
       return { pagination: getMeta(count, page_size, page), data }
     } catch (error) {
       logger.error(error)
@@ -45,24 +50,20 @@ export class CategoriesService {
 
   public async getCategory(id: string) {
     try {
-      const data = await this.categories.findOne({
-        where: {
-          parentId: IsNull(),
-          id: +id,
-        },
-      })
+      const data = await this.categories
+        .createQueryBuilder('categories')
+        .where('categories.parent_id IS NULL')
+        .andWhere('categories.id = :category_id', { category_id: id })
+        .getOne()
       if (!data) {
         return null
       }
-      const subCategories = await this.categories.find({
-        where: {
-          parentId: +id,
-        },
-      })
-      ;(
-        data as Categories & { subCategories: Array<Categories> }
-      ).subCategories = subCategories
-      return data
+
+      const subCategories = await this.categories
+        .createQueryBuilder('categories')
+        .where('categories.parent_id = :category_id', { category_id: id })
+        .getMany()
+      return { ...data, subCategories }
     } catch (error) {
       logger.error(error)
       throw new Error(error?.message ?? 'Something went wrong')
