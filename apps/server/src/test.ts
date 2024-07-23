@@ -1,3 +1,5 @@
-import { fsWrapper } from './utils/fs/fsWrapper'
+console.log('Hello world')
 
-fsWrapper.readFile('/projects/projects.json').then((data) => console.log(data))
+setTimeout(() => {
+  console.log('Time out 3s')
+}, 3000)
