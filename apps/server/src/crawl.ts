@@ -6,10 +6,13 @@ import { handleCase } from './crawl/handleCase'
 import { connection } from './database/connection'
 
 async function main() {
+  console.log('Start crawling')
   await connection.initialize()
 
   // get list file change
   const fileChanges = await getListFileChange()
+
+  console.log('File change', fileChanges)
 
   if (fileChanges.length == 0) return // this is a merge action for FE
 
@@ -17,10 +20,10 @@ async function main() {
 
   const listCase = await classificationCase(fileChanges)
 
-  console.log(listCase)
+  console.log('List case', listCase)
 
   // Handle case
-  handleCase(listCase)
+  handleCase(listCase).then(() => console.log('Handle done'))
 }
 
 main()
