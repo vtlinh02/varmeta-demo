@@ -7,7 +7,6 @@
     "build": "tsc",
     "dev": "nodemon dist/index.js",
     "test": "ts-node src/test.ts",
-    "main": "ts-node src/main.ts",
     "crawl": "ts-node -r tsconfig-paths/register src/crawl.ts "
   },
   "keywords": [],
