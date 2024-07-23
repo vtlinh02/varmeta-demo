@@ -1,0 +1,48 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [closed]
+jobs:
+  handle-commit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    outputs:
+      commit-output: ${{steps.handle-commit.outputs.commit_output}}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependency
+      run: |
+        npm install -g pnpm
+        pnpm install
+        npm install -g ts-node
+    - name: Run commit handling
+      id: handle-commit
+      run: | 
+        npm run crawl > result.txt
+        echo "commit_output=$(cat result.txt)" >> $GITHUB_OUTPUT
+      if: github.event.pull_request.merged == true
+
+  send-rest-api:
+    needs: handle-commit`
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - name: Output of previous step
+      run: echo ${{needs.handle-commit.outputs.commit-output}}
+      if: github.event.pull_request.merged == true
