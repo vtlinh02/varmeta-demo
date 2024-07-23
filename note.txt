@@ -1,0 +1,9 @@
+
+> built-on-gno@ crawl /home/vutuanlinh2002/varmeta/built-on-gno
+> cd apps/server && npm run crawl
+
+
+> server@1.0.0 crawl
+> ts-node -r tsconfig-paths/register src/crawl.ts
+
+File change []

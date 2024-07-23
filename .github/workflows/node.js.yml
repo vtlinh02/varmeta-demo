@@ -1,0 +1,55 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [closed]
+jobs:
+  handle-commit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    outputs:
+      output: ${{steps.handling.outputs.output}}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependency
+        run: |
+          npm install -g pnpm
+          pnpm install
+          npm install -g ts-node
+      - name: test program working?
+        run: npm run crawl --silent
+        if: github.event.pull_request.merged == true
+      - name: run commit handling
+        id: handling
+        run: |
+          output=$(npm run crawl --silent)
+          echo "output=$output" >> "$GITHUB_OUTPUT"
+
+  send-rest-api:
+    needs: handle-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test output exist
+        env:
+          output: ${{needs.handle-commit.outputs.output}}
+        run: |
+          echo ${{needs.handle-commit.outputs.output}}
+          echo "output is $output"
+      - name: Output of previous step
+        env:
+          output: ${{needs.handle-commit.outputs.output}}
+        run: curl "https://a85e-42-119-180-122.ngrok-free.app/api/v1/crawl$output"
+        if: github.event.pull_request.merged == true

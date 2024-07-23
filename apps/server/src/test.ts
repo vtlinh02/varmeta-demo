@@ -1,3 +1,5 @@
-import { fsWrapper } from './utils/fs/fsWrapper'
+import { fromFileChangesToQuery } from './crawl'
 
-fsWrapper.readFile('/projects/projects.json').then((data) => console.log(data))
+const fileChanges = []
+
+console.log(fromFileChangesToQuery(fileChanges))

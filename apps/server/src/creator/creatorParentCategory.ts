@@ -24,6 +24,7 @@ export function creatorParentCategory(parentPath: string) {
       .getRepository(Category)
       .save(category)
       .then((category) => {
+        console.log('Save to DB', category)
         if (data.sub_categories.length !== 0) {
           data.sub_categories.map((detail) => {
             const subPath = `${parentPath}/${detail.pathname}`
