@@ -1,3 +1,3 @@
-import { fsWrapper } from './utils/fs/fsWrapper'
+const str = `\\\"vu tuan linh\\\"`
 
-fsWrapper.readFile('/projects/projects.json').then((data) => console.log(data))
+console.log(str)

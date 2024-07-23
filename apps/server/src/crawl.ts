@@ -1,26 +1,33 @@
-// On merge request
-
-import { classificationCase } from './crawl/classificationCase'
 import { getListFileChange } from './crawl/getListFileChange'
-import { handleCase } from './crawl/handleCase'
-import { connection } from './database/connection'
+
+export function fromFileChangesToQuery(fileChanges: Array<string>): string {
+  if (fileChanges.length == 0) return ''
+
+  if (fileChanges.length == 1) return `?dataRaw[]=${fileChanges[0]}`
+
+  let dataReturn = '?'
+  for (let i = 0; i < fileChanges.length - 1; i++) {
+    dataReturn += `dataRaw[]=${fileChanges[i]}&`
+  }
+
+  dataReturn += `dataRaw[]=${fileChanges[fileChanges.length - 1]}`
+
+  return dataReturn
+}
+
+export function getURL(data: string) {
+  const server = 'https://77c4-42-119-180-122.ngrok-free.app/api/v1/crawl'
+
+  return `${server}${data}`
+}
 
 async function main() {
-  await connection.initialize()
-
   // get list file change
   const fileChanges = await getListFileChange()
 
-  if (fileChanges.length == 0) return // this is a merge action for FE
+  const query: string = fromFileChangesToQuery(fileChanges)
 
-  // Group to consistent case
-
-  const listCase = await classificationCase(fileChanges)
-
-  console.log(listCase)
-
-  // Handle case
-  handleCase(listCase)
+  console.log(`${getURL(query)}`)
 }
 
 main()
