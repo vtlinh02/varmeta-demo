@@ -27,5 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
     - run: pnpm install
-    - run: npm run crawl
+    - run: npm run test
       if: github.event.pull_request.merged == true
