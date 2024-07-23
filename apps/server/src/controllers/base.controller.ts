@@ -25,14 +25,7 @@ export class BaseController {
   }
 
   public test = async (req, res) => {
-    const category = new Category()
-    category.name = 'DeFi'
-    category.pathname = 'DeFi'
-    category.parent = null
-    category.description =
-      'Acala provides backend infrastructure for traditional finance that is trusted by institutions like Coinbase, Figment, and Current.com.'
-
-    const dataReturn = await connection.getRepository(Category).save(category)
+    console.log('come here')
 
     res.send('successful')
   }

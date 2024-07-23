@@ -35,7 +35,7 @@ export function creatorSubCategory(subPath: string) {
       .save(category)
       .catch((error) => console.log(error))
       .then((category) => {
-        fsWrapper.readdir(`/${subPath}`).then((datas) => {
+        fsWrapper.readdir(`${subPath}`).then((datas) => {
           datas.map((data) => {
             const path = `${subPath}/${data}`
             creatorProject(path, category)
