@@ -1,3 +1,7 @@
-import { fsWrapper } from './utils/fs/fsWrapper'
+import { fromFileChangesToQuery, getURL } from './crawl'
 
-fsWrapper.readFile('/projects/projects.json').then((data) => console.log(data))
+const fileChanges = ['bitcoin.txt']
+
+const query = fromFileChangesToQuery(fileChanges)
+
+console.log(getURL(query))

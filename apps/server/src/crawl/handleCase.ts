@@ -26,13 +26,13 @@ async function getCategory(projectFolder: string) {
 export async function handleCase(caseData: DataReturn) {
   if (caseData.parentCategory.length !== 0) {
     caseData.parentCategory.map((parent) => {
-      creatorParentCategory(parent)
+      creatorParentCategory(`/${parent}`)
     })
   }
 
   if (caseData.subCategory.length !== 0) {
     caseData.subCategory.map((subPath) => {
-      creatorSubCategory(subPath)
+      creatorSubCategory(`/${subPath}`)
     })
   }
 
@@ -51,7 +51,7 @@ export async function handleCase(caseData: DataReturn) {
 
       const category = await getCategory(projectPath)
 
-      creatorProject(projectPath, category)
+      creatorProject(`/${projectPath}`, category)
     })
   }
 }
