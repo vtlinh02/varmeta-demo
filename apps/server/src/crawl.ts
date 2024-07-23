@@ -1,26 +1,26 @@
-// On merge request
-
-import { classificationCase } from './crawl/classificationCase'
 import { getListFileChange } from './crawl/getListFileChange'
-import { handleCase } from './crawl/handleCase'
-import { connection } from './database/connection'
+import axios from 'axios'
+import 'dotenv/config'
+
+const serverURL = process.env.SERVICE_URL
 
 async function main() {
-  await connection.initialize()
+  console.log('Start crawling process')
 
   // get list file change
   const fileChanges = await getListFileChange()
 
+  console.log('File change', fileChanges)
+
   if (fileChanges.length == 0) return // this is a merge action for FE
 
-  // Group to consistent case
-
-  const listCase = await classificationCase(fileChanges)
-
-  console.log(listCase)
-
-  // Handle case
-  handleCase(listCase)
+  axios
+    .get(`${serverURL}/api/v1/crawl`, {
+      params: {
+        fileChanges,
+      },
+    })
+    .catch((error) => console.log(error))
 }
 
 main()
