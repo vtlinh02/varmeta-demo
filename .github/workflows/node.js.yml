@@ -25,7 +25,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install axios
+    - run: npm install -g pnpm
+    - run: pnpm install
     - run: npm install -g ts-node
+    - run: npm install axios
     - run: npm run crawl
       if: github.event.pull_request.merged == true
