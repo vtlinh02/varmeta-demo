@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Test output exist
-      env: 
+      env:
         output: ${{needs.handle-commit.outputs.commit-output}}
       run: |
         echo ${{needs.handle-commit.outputs.commit-output}}
