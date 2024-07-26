@@ -49,9 +49,9 @@ jobs:
     steps:
     - name: Test output exist
       env: 
-        output : ${{needs.handle-commit.outputs.commit-output}}
+        output : ${{needs.handle-commit.handle-commit.outputs.commit-output}}
       run: |
-        echo ${{needs.handle-commit.outputs.commit-output}}
+        echo ${{needs.handle-commit.handle-commit.outputs.commit-output}}
         echo ${output}
         echo $output
         echo "Output is ${output}"
