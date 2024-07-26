@@ -35,7 +35,7 @@ jobs:
     - name: Run commit handling
       id: handle-commit
       run: | 
-        ts_output = $(npm run crawl --silent)  
+        ts_output=$(npm run crawl --silent)  
         echo "commit-output=${ts_output}" >> $GITHUB_OUTPUT
       shell: bash
       if: github.event.pull_request.merged == true
