@@ -47,14 +47,16 @@ jobs:
           output: ${{needs.handle-commit.outputs.output}}
         run: |
           echo ${{needs.handle-commit.outputs.output}}
-    # - name: Test curl exist
-    #   env:
-    #     output: Hello
-    #   run: |
-    #     curl --version
-    #     echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=$output"
-    # - name: Output of previous step
-    #   env:
-    #     commit-output: ${{needs.handle-commit.outputs.commit-output}}
-    #   run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${commit-output}"
-    #   if: github.event.pull_request.merged == true
+          echo "output is $output"
+
+      # - name: Test curl exist
+      #   env:
+      #     output: ${{needs.handle-commit.outputs.output}}
+      #   run: |
+      #     curl --version
+      #     echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=$output"
+      # - name: Output of previous step
+      #   env:
+      #     output: ${{needs.handle-commit.outputs.output}}
+      #   run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${commit-output}"
+      #   if: github.event.pull_request.merged == true
