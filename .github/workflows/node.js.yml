@@ -50,7 +50,7 @@ jobs:
     - name: Test curl exist
       run: |
         curl --version
-        echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${{needs.handle-commit.outputs.commit-output}}"
+        echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${${{needs.handle-commit.outputs.commit-output}}}"
     - name: Output of previous step
-      run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${{needs.handle-commit.outputs.commit-output}}"
+      run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${${{needs.handle-commit.outputs.commit-output}}}"
       if: github.event.pull_request.merged == true
