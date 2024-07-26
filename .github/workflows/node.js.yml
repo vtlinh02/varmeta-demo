@@ -37,7 +37,7 @@ jobs:
       if: github.event.pull_request.merged == true
 
   send-rest-api:
-    needs: handle-commit`
+    needs: handle-commit
     runs-on: ubuntu-latest
     strategy:
       matrix:
