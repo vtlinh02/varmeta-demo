@@ -30,13 +30,14 @@ jobs:
         pnpm install
         npm install -g ts-node
     - name: test program working?
-      run: npm run crawl
+      run: npm run crawl --silent
       if: github.event.pull_request.merged == true
     - name: Run commit handling
       id: handle-commit
       run: | 
-        ts_output = $(npm run crawl)  
+        ts_output = $(npm run crawl --silent)  
         echo "commit-output=${ts_output}" >> $GITHUB_OUTPUT
+      shell: bash
       if: github.event.pull_request.merged == true
 
   send-rest-api:

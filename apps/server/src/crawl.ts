@@ -4,7 +4,7 @@ async function main() {
   // get list file change
   const fileChanges = await getListFileChange()
 
-  console.log('File change', fileChanges)
+  console.log(fileChanges)
 }
 
 main()
