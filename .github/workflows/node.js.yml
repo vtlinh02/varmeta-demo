@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     types: [closed]
 jobs:
   handle-commit:
@@ -16,33 +16,49 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     outputs:
       commit-output: ${{steps.handle-commit.outputs.commit_output}}
+      log: Hello
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependency
-      run: |
-        npm install -g pnpm
-        pnpm install
-        npm install -g ts-node
-    - name: Run commit handling
-      id: handle-commit
-      run: | 
-        npm run crawl > result.txt
-        echo "commit_output=$(cat result.txt)" >> $GITHUB_OUTPUT
-      if: github.event.pull_request.merged == true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependency
+        run: |
+          npm install -g pnpm
+          pnpm install
+          npm install -g ts-node
+      - name: test program working?
+        run: npm run crawl --silent
+        if: github.event.pull_request.merged == true
+      - name: Run commit handling
+        id: handle-commit
+        run: |
+          ts_output=$(npm run crawl --silent)
+          another=Hello
+          echo "commit-output=Hello" >> $GITHUB_OUTPUT
+        shell: bash
+        if: github.event.pull_request.merged == true
 
   send-rest-api:
-    needs: handle-commit`
+    needs: handle-commit
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-    - name: Output of previous step
-      run: echo ${{needs.handle-commit.outputs.commit-output}}
-      if: github.event.pull_request.merged == true
+      - name: Test output exist
+        env:
+          output: ${{needs.handle-commit.outputs.commit-output}}
+        run: |
+          echo ${{needs.handle-commit.outputs.commit-output}}
+    # - name: Test curl exist
+    #   env:
+    #     output: Hello
+    #   run: |
+    #     curl --version
+    #     echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=$output"
+    # - name: Output of previous step
+    #   env:
+    #     commit-output: ${{needs.handle-commit.outputs.commit-output}}
+    #   run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${commit-output}"
+    #   if: github.event.pull_request.merged == true
