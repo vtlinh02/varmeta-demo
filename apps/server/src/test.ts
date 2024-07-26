@@ -1,5 +1,7 @@
-import { fromFileChangesToQuery } from './crawl'
+import { fromFileChangesToQuery, getURL } from './crawl'
 
-const fileChanges = []
+const fileChanges = ['bitcoin.txt']
 
-console.log(fromFileChangesToQuery(fileChanges))
+const query = fromFileChangesToQuery(fileChanges)
+
+console.log(getURL(query))
