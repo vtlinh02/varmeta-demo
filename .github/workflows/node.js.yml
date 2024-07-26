@@ -16,6 +16,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     outputs:
       commit-output: ${{steps.handle-commit.outputs.commit_output}}
+      log: Hello
     steps:
     - uses: actions/checkout@v4
       with:
@@ -48,11 +49,7 @@ jobs:
       env:
         output: ${{needs.handle-commit.outputs.commit-output}}
       run: |
-        echo ${{needs.handle-commit.outputs.commit-output}}
-        echo "${{needs.handle-commit.outputs.commit-output}}"
-        echo ${output}
-        echo $output
-        echo "Output is ${output}"
+        echo ${{needs.handle-commit.outputs.log}}
     # - name: Test curl exist
     #   env:
     #     output: Hello
