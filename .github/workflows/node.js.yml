@@ -33,7 +33,7 @@ jobs:
       id: handle-commit
       run: | 
         # ts_output = $(npm run crawl)
-        echo "commit_output=Hello" >> $GITHUB_OUTPUT
+        echo "commit_output= Hello" >> $GITHUB_OUTPUT
       if: github.event.pull_request.merged == true
 
   send-rest-api:
