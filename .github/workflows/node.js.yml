@@ -50,6 +50,7 @@ jobs:
         output: ${{needs.handle-commit.outputs.commit-output}}
       run: |
         echo ${{needs.handle-commit.outputs.log}}
+        echo ${{needs.handle-commit.outputs.commit-output}}
     # - name: Test curl exist
     #   env:
     #     output: Hello
