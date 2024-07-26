@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     types: [closed]
 jobs:
   handle-commit:
@@ -18,40 +18,40 @@ jobs:
       commit-output: ${{steps.handle-commit.outputs.commit_output}}
       log: Hello
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependency
-      run: |
-        npm install -g pnpm
-        pnpm install
-        npm install -g ts-node
-    - name: test program working?
-      run: npm run crawl --silent
-      if: github.event.pull_request.merged == true
-    - name: Run commit handling
-      id: handle-commit
-      run: |
-        ts_output=$(npm run crawl --silent)
-        another=Hello
-        echo "commit-output=Thep" >> $GITHUB_OUTPUT
-      shell: bash
-      if: github.event.pull_request.merged == true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependency
+        run: |
+          npm install -g pnpm
+          pnpm install
+          npm install -g ts-node
+      - name: test program working?
+        run: npm run crawl --silent
+        if: github.event.pull_request.merged == true
+      - name: Run commit handling
+        id: handle-commit
+        run: |
+          ts_output=$(npm run crawl --silent)
+          another=Hello
+          echo "commit-output=${ts_output}" >> $GITHUB_OUTPUT
+        shell: bash
+        if: github.event.pull_request.merged == true
 
   send-rest-api:
     needs: handle-commit
     runs-on: ubuntu-latest
     steps:
-    - name: Test output exist
-      env:
-        output: ${{needs.handle-commit.outputs.commit-output}}
-      run: |
-        echo ${{needs.handle-commit.outputs.log}}
-        echo ${{needs.handle-commit.outputs.commit-output}}
+      - name: Test output exist
+        env:
+          output: ${{needs.handle-commit.outputs.commit-output}}
+        run: |
+          echo ${{needs.handle-commit.outputs.log}}
+          echo ${{needs.handle-commit.outputs.commit-output}}
     # - name: Test curl exist
     #   env:
     #     output: Hello
