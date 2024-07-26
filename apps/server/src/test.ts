@@ -1,1 +1,5 @@
-const path = '/home/tuanlinh/name.txt'
+import { fromFileChangesToQuery } from './crawl'
+
+const fileChanges = []
+
+console.log(fromFileChangesToQuery(fileChanges))

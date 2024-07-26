@@ -51,5 +51,5 @@ jobs:
       - name: Output of previous step
         env:
           output: ${{needs.handle-commit.outputs.output}}
-        run: curl "https://a85e-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=$output"
+        run: curl "https://a85e-42-119-180-122.ngrok-free.app/api/v1/crawl$output"
         if: github.event.pull_request.merged == true
