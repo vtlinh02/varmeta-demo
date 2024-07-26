@@ -29,20 +29,32 @@ jobs:
         npm install -g pnpm
         pnpm install
         npm install -g ts-node
+    - name: test program working?
+      run: npm run crawl --silent
+      if: github.event.pull_request.merged == true
     - name: Run commit handling
       id: handle-commit
       run: | 
-        npm run crawl > result.txt
-        echo "commit_output=$(cat result.txt)" >> $GITHUB_OUTPUT
+        ts_output=$(npm run crawl --silent)  
+        echo "commit-output=${ts_output}" >> $GITHUB_OUTPUT
+      shell: bash
       if: github.event.pull_request.merged == true
 
   send-rest-api:
-    needs: handle-commit`
+    needs: handle-commit
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x]
     steps:
+    - name: Test curl exist
+      env:
+        output: ${{needs.handle-commit.outputs.commit-output}}
+      run: |
+        curl --version
+        echo "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${output}"
     - name: Output of previous step
-      run: echo ${{needs.handle-commit.outputs.commit-output}}
+      env:
+        commit-output: ${{needs.handle-commit.outputs.commit-output}}
+      run: curl "https://2e6c-42-119-180-122.ngrok-free.app/api/v1/crawl?dataRaw=${commit-output}"
       if: github.event.pull_request.merged == true
