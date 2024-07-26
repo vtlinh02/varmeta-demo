@@ -32,8 +32,8 @@ jobs:
     - name: Run commit handling
       id: handle-commit
       run: | 
-        npm run crawl > result.txt
-        echo "commit_output=$(cat result.txt)" >> $GITHUB_OUTPUT
+        ts_output = $(npm run crawl)
+        echo "commit_output=$ts_output" >> $GITHUB_OUTPUT
       if: github.event.pull_request.merged == true
 
   send-rest-api:
