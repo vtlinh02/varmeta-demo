@@ -15,8 +15,7 @@ jobs:
         node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     outputs:
-      commit-output: ${{steps.handle-commit.outputs.commit_output}}
-      log: Hello
+      output: ${{steps.handling.outputs.output}}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,14 +32,11 @@ jobs:
       - name: test program working?
         run: npm run crawl --silent
         if: github.event.pull_request.merged == true
-      - name: Run commit handling
-        id: handle-commit
+      - name: run commit handling
+        id: handling
         run: |
-          ts_output=$(npm run crawl --silent)
-          another=Hello
-          echo "commit-output=Hello" >> $GITHUB_OUTPUT
-        shell: bash
-        if: github.event.pull_request.merged == true
+          output=$(npm run crawl --silent)
+          echo "output=$output" >> "$GITHUB_OUTPUT"
 
   send-rest-api:
     needs: handle-commit
@@ -48,9 +44,9 @@ jobs:
     steps:
       - name: Test output exist
         env:
-          output: ${{needs.handle-commit.outputs.commit-output}}
+          output: ${{needs.handle-commit.outputs.output}}
         run: |
-          echo ${{needs.handle-commit.outputs.commit-output}}
+          echo ${{needs.handle-commit.outputs.output}}
     # - name: Test curl exist
     #   env:
     #     output: Hello
