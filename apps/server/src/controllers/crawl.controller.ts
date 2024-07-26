@@ -17,7 +17,6 @@ export class CrawlController {
   }
 
   private handleFileChangeRaw(data: string): Array<string> {
-    const index = data.indexOf('[')
-    return JSON.parse(data.substring(index))
+    return JSON.parse(data)
   }
 }
