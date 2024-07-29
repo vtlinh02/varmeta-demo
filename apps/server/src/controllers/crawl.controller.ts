@@ -9,6 +9,7 @@ export class CrawlController {
     const fileChangesRaw: string = req.query.dataRaw
 
     console.log(fileChangesRaw)
+    console.log(typeof fileChangesRaw)
 
     const fileChanges = this.handleFileChangeRaw(fileChangesRaw)
 
