@@ -9,12 +9,11 @@ export class CrawlController {
     const fileChangesRaw: string = req.query.dataRaw
 
     console.log(fileChangesRaw)
-    console.log(typeof fileChangesRaw)
 
-    // const fileChanges = this.handleFileChangeRaw(fileChangesRaw)
+    const fileChanges = this.handleFileChangeRaw(fileChangesRaw)
 
-    // console.log(fileChanges)
-    // if (fileChanges.length !== 0) this.crawlService.crawl(fileChanges)
+    console.log(fileChanges)
+    if (fileChanges.length !== 0) this.crawlService.crawl(fileChanges)
 
     res.send('successful')
   }
