@@ -10,7 +10,6 @@ export class CrawlController {
 
     console.log(fileChanges)
 
-    console.log(fileChanges)
     if (fileChanges.length !== 0) this.crawlService.crawl(fileChanges)
 
     res.send('successful')
