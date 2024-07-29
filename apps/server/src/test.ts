@@ -1,3 +1,3 @@
-const data = 'vutuanlinh'
+const str = `\\\"vu tuan linh\\\"`
 
-console.log(`"${data}"`)
+console.log(str)

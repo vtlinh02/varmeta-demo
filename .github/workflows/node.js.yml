@@ -51,5 +51,5 @@ jobs:
       - name: Output of previous step
         env:
           output: ${{needs.handle-commit.outputs.output}}
-        run: curl $output
+        run: curl "$output"
         if: github.event.pull_request.merged == true

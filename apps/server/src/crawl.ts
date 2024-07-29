@@ -27,7 +27,7 @@ async function main() {
 
   const query: string = fromFileChangesToQuery(fileChanges)
 
-  console.log(`"${getURL(query)}"`)
+  console.log(`${getURL(query)}`)
 }
 
 main()
